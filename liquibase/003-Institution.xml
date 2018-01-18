@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+     <changeSet author="gabriel" id="1">
+         <createTable tableName="institution">
+             <column name="id_institution" type="integer">
+                 <constraints nullable="false" primaryKey="true" />
+             </column>
+
+             <column name="nm_institution" type="varchar(200)">
+                 <constraints nullable="false" />
+             </column>
+
+             <column name="ds_abbreviation" type="varchar(10)">
+                 <constraints nullable="false" />
+             </column>
+
+             <column name="id_country" type="integer">
+                 <constraints nullable="false"
+                     foreignKeyName="fk_institution_01"
+                     references="country(id_country)" />
+             </column>
+
+             <column name="id_project" type="bigint">
+                 <constraints nullable="false"
+                     foreignKeyName="fk_institution_02"
+                     references="project(id_project)" />
+             </column>
+         </createTable>
+     </changeSet>
+
+     <changeSet author="gabriel" id="2">
+         <createSequence sequenceName="sq_institution" minValue="1"
+             startValue="1" incrementBy="1" />
+     </changeSet>
+
+     <changeSet author="gabriel" id="3">
+         <preConditions>
+             <tableExists tableName="institution" />
+             <sequenceExists sequenceName="sq_institution" />
+         </preConditions>
+
+         <addDefaultValue tableName="institution" columnName="id_institution"
+             defaultValueSequenceNext="sq_institution" />
+     </changeSet>
+
+</databaseChangeLog>

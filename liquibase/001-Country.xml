@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+     <changeSet author="gabriel" id="1">
+         <createTable tableName="country">
+             <column name="id_country" type="integer">
+                 <constraints nullable="false" primaryKey="true" />
+             </column>
+
+             <column name="nm_country" type="varchar(150)">
+                 <constraints nullable="false" />
+             </column>
+         </createTable>
+     </changeSet>
+
+     <changeSet author="gabriel" id="2">
+         <createSequence sequenceName="sq_country" minValue="1" startValue="1"
+             incrementBy="1" />
+     </changeSet>
+
+     <changeSet author="gabriel" id="3">
+         <preConditions>
+             <tableExists tableName="country" />
+             <sequenceExists sequenceName="sq_country" />
+         </preConditions>
+
+         <addDefaultValue tableName="country" columnName="id_country"
+             defaultValueSequenceNext="sq_country" />
+     </changeSet>
+
+     <changeSet author="gabriel" id="4">
+         <preConditions>
+             <changeSetExecuted author="gabriel" id="3"
+                 changeLogFile="liquibase/001-Country.xml" />
+         </preConditions>
+
+         <sqlFile encoding="utf8" relativeToChangelogFile="true"
+             path="scripts/countries_dump.sql" />
+     </changeSet>
+
+</databaseChangeLog>

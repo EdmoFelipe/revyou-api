@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+     <changeSet author="gabriel" id="1">
+         <createTable tableName="project">
+             <column name="id_project" type="bigint">
+                 <constraints nullable="false" primaryKey="true" />
+             </column>
+
+             <column name="ds_title" type="text">
+                 <constraints nullable="false" />
+             </column>
+
+             <column name="ds_key" type="varchar(10)">
+                 <constraints nullable="false" />
+             </column>
+
+             <column name="ds_project" type="text" />
+
+             <column name="tp_review" type="smallint">
+                 <constraints nullable="false" />
+             </column>
+         </createTable>
+     </changeSet>
+
+     <changeSet author="gabriel" id="2">
+         <createSequence sequenceName="sq_project" minValue="1" startValue="1"
+             incrementBy="1" />
+     </changeSet>
+
+     <changeSet author="gabriel" id="3">
+         <preConditions>
+             <tableExists tableName="project" />
+             <sequenceExists sequenceName="sq_project" />
+         </preConditions>
+
+         <addDefaultValue tableName="project" columnName="id_project"
+             defaultValueSequenceNext="sq_project" />
+     </changeSet>
+
+</databaseChangeLog>
